@@ -1,9 +1,4 @@
-﻿// Chat_Cross_platform.cpp: определяет точку входа для приложения.
-//
-
-#include "Chat_Cross_platform.h"
-
-using namespace std;
+﻿#include "Chat_Cross_platform.h"
 
 int main()
 {

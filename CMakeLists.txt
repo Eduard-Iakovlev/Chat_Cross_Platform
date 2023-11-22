@@ -12,7 +12,7 @@ endif()
 project ("Chat_Cross_platform")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Chat_Cross_platform "Chat_Cross_platform.cpp" "Chat_Cross_platform.h" "Hash.h" "Hash.cpp" "Message.h" "Message.cpp" "User.h" "User.cpp" "Consol_Input.h" "Chat.h" "Chat.cpp")
+add_executable (Chat_Cross_platform "Chat_Cross_platform.cpp" "Chat_Cross_platform.h" "Hash.h" "Hash.cpp" "Message.h" "Message.cpp" "User.h" "User.cpp" "Consol_Input.h" "Chat.h" "Chat.cpp" "Get.h" "Get.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Chat_Cross_platform PROPERTY CXX_STANDARD 20)

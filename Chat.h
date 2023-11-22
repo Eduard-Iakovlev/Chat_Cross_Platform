@@ -6,7 +6,6 @@
 #include <thread>
 #include <chrono>
 
-#include "Chat_Cross_platform.h"
 #include "User.h"
 #include "Message.h"
 #include "Consol_Input.h"

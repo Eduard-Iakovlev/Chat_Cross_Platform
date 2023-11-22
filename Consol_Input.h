@@ -1,51 +1,14 @@
 ﻿#pragma once
-
 #include <iostream>
 #include <string>
-#include <vector>
+//#include <vector>
+#include "Get.h"
 
 #ifdef _WIN32
 #include <conio.h>
 #else
-#include <termios.h>
-#include <unistd.h>
 #endif // _WIN332
 
-
-#ifdef _WIN32
-#else
-char _getch() {
-	char buf = 0;
-	struct termios old = { 0 };
-	fflush(stdout);
-	if (tcgetattr(0, &old) < 0)
-		perror("tcsetattr()");
-	old.c_lflag &= ~ICANON;
-	old.c_lflag &= ~ECHO;
-	old.c_cc[VMIN] = 1;
-	old.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSANOW, &old) < 0)
-		perror("tcsetattr ICANON");
-	if (read(0, &buf, 1) < 0)
-		perror("read()");
-	old.c_lflag |= ICANON;
-	old.c_lflag |= ECHO;
-	if (tcsetattr(0, TCSADRAIN, &old) < 0)
-		perror("tcsetattr ~ICANON");
-	std::cout << buf;
-	return buf;
-}
-#endif // _WIN32
-
-//char readingchar() {
-//	char ch;
-//#ifdef _WIN32
-//	ch = _getch();
-//#else
-//	ch = getin();
-//#endif // _WIN32
-//	return ch;
-//}
 
 template<typename T>
 class Universal_Input {

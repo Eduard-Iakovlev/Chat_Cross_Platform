@@ -47,7 +47,6 @@ bool Chat::check_password(std::string password, std::string login) {
 void Chat::registration(int menu, bool* check_user) {
 	User user;
 	Universal_Input<std::string> inputPL(_fsymbolLogPass, _lsymbolLogPass);
-	Universal_Input<std::string> inputMessage(_fsymbolLogMessage, _lsymbolLogMessage);
 	*check_user = false;
 	// Вход в чат
 	if (menu == 1) {
@@ -74,9 +73,11 @@ void Chat::registration(int menu, bool* check_user) {
 	// регистрация нового пользователя
 	else {
 		*check_user = true;
-		std::cout << " Введите имя (только русский алфавит): ";
-		user.get_user_name(inputMessage.input());
-		std::cout << "\n Введите логин (латинский алфавит, цифры, символы): ";
+		std::cout << " Введите имя: ";
+		std::string username;
+		std::cin >> username;
+		user.get_user_name(username);
+		std::cout << " Введите логин (латинский алфавит, цифры, символы): ";
 		bool check_login;
 		do {
 			check_login = true;
@@ -181,10 +182,10 @@ int Chat::sizeList() {
 
 void Chat::send_message() {
 	Message message;
-	std::string mess;
-	char menu{ '\0' };
-	std::cout << " Написать - \"Enter\", Выход - \"Esc\" -> ";
+	std::string mess{};
+	char menu{ ' ' };
 	while (true) {
+		std::cout << " Написать - \"Enter\", Выход - \"Esc\" -> ";
 		menu = _getch(); // Не работает под Linux ????????????
 
 		if (menu == _esc) {
@@ -192,8 +193,10 @@ void Chat::send_message() {
 			break;
 		}
 		else if (menu == _enter) {
-			std::cout << "\n ";
-			getline(std::cin, mess);
+			std::cout << "\n сообщение:\n";
+			while (mess.empty()) {
+				getline(std::cin, mess);
+			}
 			message.create_message(mess, _active_user_name, _active_user_login, _active_recipient_login);
 			_messages.push_back(message);
 			clear_show_user();
@@ -203,8 +206,9 @@ void Chat::send_message() {
 			std::cout << " отправлено \n";
 			break;
 		}
-		else std::cout << " хм, можно повторить: ";
+		else std::cout << " хм, можно повторить? \n";
 	}
+	system_pause(2);
 }
 // вывод беседы
 void Chat::show_message_list() {

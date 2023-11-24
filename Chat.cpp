@@ -9,6 +9,7 @@ Chat::Chat(std::string active_user_login, std::string active_recipient_login, st
 
 
 void Chat::greeting() {
+	clean_console();
 	std::cout << "\n          Добро пожаловать!\n\n";
 }
 
@@ -65,7 +66,7 @@ void Chat::registration(int menu, bool* check_user) {
 		}
 		else {
 			std::cout << "\n Не верный логин или пароль!";
-			system_pause(3);
+			system_pause(2);
 			return;
 		}
 
@@ -186,7 +187,7 @@ void Chat::send_message() {
 	char menu{ ' ' };
 	while (true) {
 		std::cout << " Написать - \"Enter\", Выход - \"Esc\" -> ";
-		menu = _getch(); // Не работает под Linux ????????????
+		menu = _getch();
 
 		if (menu == _esc) {
 			clear_show_user();
@@ -228,14 +229,14 @@ void Chat::show_message_list() {
 void Chat::one_user() {
 	std::cout << " вы пока единственный пользователь. \n Зайдите попозже, когда ещё кто ни будь зарегистрируется.\n";
 	out_user();
-	system_pause(3);
+	system_pause(2);
 	clean_console();
 
 }
 
 void Chat::no_users() {
 	std::cout << "\n Зарегистрированных пользователей пока нет. \n Пожалуйста сначала зарегистрируйтесь.\n ";
-	system_pause(3);
+	system_pause(2);
 	clean_console();
 }
 
@@ -284,7 +285,7 @@ void Chat::chat_work(){
 			}
 
 			if (_check_user == false) {
-				system_pause(3);
+				system_pause(2);
 				clean_console();
 				continue;
 			}
@@ -324,7 +325,7 @@ void Chat::account_work(){
 			break;
 		case 3: // выход
 			out_user();
-			system("cls");
+			clean_console();
 			_discussion = false;
 			break;
 

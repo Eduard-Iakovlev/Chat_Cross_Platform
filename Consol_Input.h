@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <iostream>
 #include <string>
-//#include <vector>
 #include "Get.h"
 
 #ifdef _WIN32

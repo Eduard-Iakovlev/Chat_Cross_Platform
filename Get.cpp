@@ -1,5 +1,6 @@
 ﻿#include "Get.h"
 
+// реализация _getch() для линукс
 #ifdef _WIN32
 #else
 #include <iostream>

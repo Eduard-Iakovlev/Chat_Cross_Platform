@@ -7,16 +7,18 @@ Chat::Chat(){
 Chat::Chat(std::string active_user_login, std::string active_recipient_login, std::string active_user_name) :
 	_active_user_login(active_user_login), _active_recipient_login(active_recipient_login), _active_user_name(active_user_name) {}
 
-
+//---------------- Приветствие ------------------------------------------------------------
 void Chat::greeting() {
 	clean_console();
 	std::cout << "\n          Добро пожаловать!\n\n";
 }
 
+//----------------- Прощание --------------------------------------------------------------
 void Chat::farewell() {
 	std::cout << "\n\n          Всего хорошего.\n";
 }
 
+//----------------- Меню входа ------------------------------------------------------------
 int Chat::logOrReg() {
 	Universal_Input<int> inputLOR('1', '3');
 	std::cout << "\n Вход - 1\n";
@@ -26,6 +28,7 @@ int Chat::logOrReg() {
 	return inputLOR.input();
 }
 
+//---------------- Меню в аккаунте -------------------------------------------------------
 int Chat::menu_chat() {
 	Universal_Input<int> inputMC('1', '3');
 	std::cout << "\n Выбрать беседу - 1\n";
@@ -35,16 +38,19 @@ int Chat::menu_chat() {
 	return inputMC.input();
 }
 
+//--------------- Проверка логина -------------------------------------------------------
 bool Chat::finding(std::string login) {
 	if (_users.find(login) == _users.end()) return true;
 	else return false;
 }
 
+//--------------- Проверка пароля -------------------------------------------------------
 bool Chat::check_password(std::string password, std::string login) {
 	if (_users.at(login).user_password() == password) return true;
 	else return false;
 }
 
+//--------------- Вход и регистрация ----------------------------------------------------
 void Chat::registration(int menu, bool* check_user) {
 	User user;
 	Universal_Input<std::string> inputPL(_fsymbolLogPass, _lsymbolLogPass);
@@ -103,6 +109,7 @@ void Chat::registration(int menu, bool* check_user) {
 	}
 }
 
+//----------------- Регистрация общего чата ---------------------------------------
 void Chat::reg_all_user() {
 	User user;
 	user.get_user_login("ALL_USERS");
@@ -111,7 +118,7 @@ void Chat::reg_all_user() {
 	_users.emplace(user.user_login(), user);
 }
 
-// вывод списка участников чата
+//---------------- Вывод списка участников чата -----------------------------------
 void Chat::showListUsers() {
 	int counter{ 0 };
 	clear_show_user();
@@ -127,30 +134,36 @@ void Chat::showListUsers() {
 	}
 }
 
+//--------------- Возвращает логин активного пользователя --------------------------
 std::string Chat::active_user_login() {
 	return _active_user_login;
 }
 
+//--------------- Возвращает имя активного пользователя -----------------------------
 std::string Chat::active_user_name() {
 	return _active_user_name;
 }
 
+//--------------- Возвращает логин получателя ---------------------------------------
 std::string Chat::active_recipient_login() {
 	return _active_recipient_login;
 }
 
+//--------------- Активация пользователя --------------------------------------------
 void Chat::get_user(std::string login, std::string name)
 {
 	_active_user_login = login;
 	_active_user_name = name;
 }
 
+//--------------- Деактивация пользователя ------------------------------------------
 void Chat::out_user() {
 	_active_user_login = '\0';
 	_active_user_name = '\0';
 
 }
 
+//--------------- Выбор получателя -------------------------------------------------
 void Chat::get_recipient(int menu) {
 	Universal_Input<int> inputID('0', '9');
 	int counter = 0;
@@ -177,10 +190,12 @@ void Chat::get_recipient(int menu) {
 	}
 }
 
+//------------- Определение количества пользователей --------------------------------
 int Chat::sizeList() {
 	return _users.size();
 }
 
+//------------- Создание и отправка сообщения ---------------------------------------
 void Chat::send_message() {
 	Message message;
 	std::string mess{};
@@ -201,9 +216,12 @@ void Chat::send_message() {
 			message.create_message(mess, _active_user_name, _active_user_login, _active_recipient_login);
 			_messages.push_back(message);
 			clear_show_user();
-			std::cout << " Сообщение для ";
-			if (_active_recipient_login == "ALL_USERS") std::cout << " всем";
-			else _users.at(_active_recipient_login).showUserName();
+			std::cout << "\n Сообщение ";
+			if (_active_recipient_login == "ALL_USERS") std::cout << " в общий чат\n";
+			else {
+				std::cout << " для ";
+				_users.at(_active_recipient_login).showUserName();
+			}
 			std::cout << " отправлено \n";
 			break;
 		}
@@ -211,7 +229,8 @@ void Chat::send_message() {
 	}
 	system_pause(2);
 }
-// вывод беседы
+
+//----------------- Вывод беседы ----------------------------------------------------------
 void Chat::show_message_list() {
 	clear_show_user();
 	std::cout << "\n Беседа с \n";
@@ -223,29 +242,33 @@ void Chat::show_message_list() {
 			i.show_message();
 		}
 		else if (_active_recipient_login == "ALL_USERS" && _active_recipient_login == i.login_recipient()) i.show_message();
+		
 	}
 }
 
+//----------------- Действие если пользователь один --------------------------------------
 void Chat::one_user() {
 	std::cout << " вы пока единственный пользователь. \n Зайдите попозже, когда ещё кто ни будь зарегистрируется.\n";
 	out_user();
 	system_pause(2);
 	clean_console();
-
 }
 
+//----------------- Действие если пользователей нет --------------------------------------
 void Chat::no_users() {
 	std::cout << "\n Зарегистрированных пользователей пока нет. \n Пожалуйста сначала зарегистрируйтесь.\n ";
 	system_pause(2);
 	clean_console();
 }
 
+//----------------- Вывод активного пользователя с очисткой консоли ----------------------- 
 void Chat::clear_show_user()
 {
 	clean_console();
 	_users.at(_active_user_login).showUser();
 }
 
+//----------------- Очистка консоли -------------------------------------------------------
 void Chat::clean_console(){
 #ifdef _WIN32
 	std::system("cls");  // Очистка экрана в системе Windows
@@ -254,11 +277,13 @@ void Chat::clean_console(){
 #endif
 }
 
+//----------------- Пауза -----------------------------------------------------------------
 void Chat::system_pause(int second){
 	std::this_thread::sleep_for(std::chrono::seconds(second));
 
 }
 
+//----------------- Основна функция работы чата -------------------------------------------
 void Chat::chat_work(){
 
 	while(_work) {
@@ -306,6 +331,7 @@ void Chat::chat_work(){
 	}
 }
 
+//--------------------- Функция работы аккаунта ------------------------------------
 void Chat::account_work(){
 
 	do {

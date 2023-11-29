@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
@@ -14,6 +14,7 @@
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #include <stdio.h>
+#include <io.h>
 #pragma comment(lib, "Ws2_32.lib")
 
 #else
@@ -22,10 +23,10 @@
 #include<netinet/in.h>
 #endif
 
-#define MESSAGE_LENGTH 1024 // Максимальный размер буфера для данных
-#define PORT 7777 // Будем использовать этот номер порта
+#define MESSAGE_LENGTH 1024 // РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° РґР»СЏ РґР°РЅРЅС‹С…
+#define PORT 7777 // Р‘СѓРґРµРј РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЌС‚РѕС‚ РЅРѕРјРµСЂ РїРѕСЂС‚Р°
 
-char message[MESSAGE_LENGTH];
+//char message[MESSAGE_LENGTH];
 
 class Net {
 public:
@@ -34,6 +35,9 @@ public:
 	int socket_file_description();
 	void server_address();
 	void connect();
+
+	void receiving_user();
+
 
 private:
 int _socket_file_descriptor, _connection, _bind_status, _connection_status;
